@@ -20,16 +20,20 @@ function drawGraph() {
 	xAxis = $("#x-axis").val();
 	yAxis = $("#y-axis").val();
 	data = $("#data").val().split(",");
-
-	try {
-		data = jQuery.map(data, function(el) { return parseFloat(el) });
-	} catch(err) {
-		alert("Sorry, there was an error with the data you inputted.  Can you try again?");
-	}
+	data = jQuery.map(data, function(el) { return parseFloat(el) });
 
 	// Don't render the graph if there ain't no data.
-	if(isNaN(data[0])) {
+	if(isNaN(data[0]) && data.length == 1) {
 		return;
+	}
+
+	// parseFloat will fail silently if given strings and set everything to NaN,
+	// so we handle that here.
+	for (var i = 0; i < data.length; i++) {
+		if(isNaN(data[i])) {
+			alert("Sorry, there was an error with the data you inputted.  Can you try again? (Make sure there aren't any words or letters!)");
+			return;
+		}
 	}
 
 	// Deal with the quirks.
