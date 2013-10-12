@@ -1,7 +1,8 @@
-// Constants.
+// Constants.  There should probably be more of these.
 var PIE_CHART = "pie";
 var FIELDS = ["title", "labels", "data", "x-axis", "y-axis"];
 
+// Because I am lazy.  (Or "elegance".)
 $(document).ready(function() {
 	for(var i = 0; i < FIELDS.length; i++) {
 		var fieldName = FIELDS[i];
@@ -25,7 +26,7 @@ $("form").focusout(function () {
 		return;
 	}
 
-	// Deal with the massive quirks.
+	// Deal with the quirks.
 	if (type == PIE_CHART) {
 		newData = [];
 		for (var i = 0; i < data.length; i++) {
