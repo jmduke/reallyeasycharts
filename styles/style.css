@@ -1,0 +1,62 @@
+body {
+	background-color: #e2e8f2;
+	color: #161718;
+	text-align: center;
+	font-family: 'Montserrat';
+	width: 50%;
+	margin-left: 25%;
+}
+
+h3 {
+	text-align: left;
+	float: left;
+}
+
+#container {
+	height: 400px;
+	width: 100%;
+	background-color: #fff;
+	border: 1px #ACB0B5 solid;
+	display: table;
+}
+
+.tablecell {
+	display: table-cell;
+	vertical-align: middle;
+}
+
+form {
+	padding: 1em;
+	float: left;
+	background-color: #F36C3D;
+	color: #fff;
+}
+
+form div {
+	float: left;
+	width: 40%;
+	margin-right: 5%;
+	margin-left: 5%;
+}
+label {
+	float: left;
+	text-transform: capitalize;
+}
+
+input, select {
+	float: right;
+}
+
+.header {
+	margin-top: 3em;
+	float: left;
+	width: 100%;
+}
+
+.sharing {
+	float: right;
+}
+
+.sharing li {
+	float: right;
+}
