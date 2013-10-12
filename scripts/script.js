@@ -11,14 +11,17 @@ $(document).ready(function() {
 	}
 });
 
-$("form").focusout(function () {
+			
+function drawGraph() {
+	console.log("hi");
+	
 	// Grab data from the form.
-	labels = $("#labels").attr('value').split(",");
-	type = $("#type").attr('value');
-	title = $("#title").attr('value');
-	xAxis = $("#x-axis").attr('value');
-	yAxis = $("#y-axis").attr('value');
-	data = $("#data").attr('value').split(",");
+	labels = $("#labels").val().split(",");
+	type = $("#type").val();
+	title = $("#title").val();
+	xAxis = $("#x-axis").val();
+	yAxis = $("#y-axis").val();
+	data = $("#data").val().split(",");
 	data = jQuery.map(data, function(el) { return parseInt(el) });
 
 	// Don't render the graph if there ain't no data.
@@ -72,5 +75,7 @@ $("form").focusout(function () {
 		}
 	}
 
+	console.log(allData);
+
 	$('#container').highcharts(allData);
-});
+}
