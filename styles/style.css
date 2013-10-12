@@ -58,5 +58,7 @@ input, select {
 }
 
 .sharing li {
+	margin-right: -20px;
+	margin-top: 5px;
 	float: right;
 }
