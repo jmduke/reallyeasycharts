@@ -20,7 +20,12 @@ function drawGraph() {
 	xAxis = $("#x-axis").val();
 	yAxis = $("#y-axis").val();
 	data = $("#data").val().split(",");
-	data = jQuery.map(data, function(el) { return parseFloat(el) });
+
+	try {
+		data = jQuery.map(data, function(el) { return parseFloat(el) });
+	} catch(err) {
+		alert("Sorry, there was an error with the data you inputted.  Can you try again?");
+	}
 
 	// Don't render the graph if there ain't no data.
 	if(isNaN(data[0])) {
@@ -72,8 +77,6 @@ function drawGraph() {
 			enabled: false
 		}
 	}
-
-	console.log(allData);
 
 	$('#container').highcharts(allData);
 }
