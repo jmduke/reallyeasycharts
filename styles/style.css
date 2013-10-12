@@ -62,3 +62,19 @@ input, select {
 	margin-top: 5px;
 	float: right;
 }
+
+.footer {
+	float: left;
+	margin-top: 3em;
+	color: #ACB0B5;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 1px solid #F36C3D;
+}
+
+a:hover {
+	color: #F36C3D;
+}
