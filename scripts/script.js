@@ -13,8 +13,6 @@ $(document).ready(function() {
 
 			
 function drawGraph() {
-	console.log("hi");
-
 	// Grab data from the form.
 	labels = $("#labels").val().split(",");
 	type = $("#type").val();
