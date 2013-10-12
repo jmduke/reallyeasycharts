@@ -14,7 +14,7 @@ $(document).ready(function() {
 			
 function drawGraph() {
 	console.log("hi");
-	
+
 	// Grab data from the form.
 	labels = $("#labels").val().split(",");
 	type = $("#type").val();
@@ -22,7 +22,7 @@ function drawGraph() {
 	xAxis = $("#x-axis").val();
 	yAxis = $("#y-axis").val();
 	data = $("#data").val().split(",");
-	data = jQuery.map(data, function(el) { return parseInt(el) });
+	data = jQuery.map(data, function(el) { return parseFloat(el) });
 
 	// Don't render the graph if there ain't no data.
 	if(isNaN(data[0])) {
