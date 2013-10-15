@@ -1,6 +1,6 @@
 // Constants.  There should probably be more of these.
 var PIE_CHART = "pie";
-var FIELDS = ["title", "labels", "data", "x-axis", "y-axis"];
+var FIELDS = ["title", "x-axis", "y-axis", "labels", "data"];
 
 // Because I am lazy.  (Or "elegance".)
 $(document).ready(function() {
