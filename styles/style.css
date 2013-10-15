@@ -78,3 +78,14 @@ a {
 a:hover {
 	color: #F36C3D;
 }
+
+#submit {
+	margin-top: 2em;
+	width: 20%;
+	margin-left: 40%;
+}
+
+#submit input {
+	width: 100%;
+	padding: 0.2em;
+}

@@ -7,7 +7,7 @@ $(document).ready(function() {
 	for(var i = 0; i < FIELDS.length; i++) {
 		var fieldName = FIELDS[i];
 		var inputString = "<div><label>" + fieldName + "</label><input id='" + fieldName + "'/></div>";
-		$("form").append(inputString);
+		$("form").prepend(inputString);
 	}
 
 	for(var key in COLOR_SCHEMES) {

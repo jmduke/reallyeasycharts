@@ -87,12 +87,17 @@
 				<option value="column">Bar</option>
 			</select>
 			</div>
+
 			<div>
 			<label>
 				Flavor
 			</label>
 			<select id="colors">
 			</select>
+			</div>
+
+			<div id="submit">
+				<input type="submit" value="Generate graph!"/>
 			</div>
 		</form>
 
@@ -103,6 +108,11 @@
 		<script type="text/javascript">		
 			$("form").change(function() {
 				drawGraph();
+			});
+
+			$("form").submit(function() {
+				drawGraph();
+				event.preventDefault();
 			});
 		</script>
 	</body>
