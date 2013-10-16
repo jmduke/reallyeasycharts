@@ -9,10 +9,6 @@ $(document).ready(function() {
 		var inputString = "<div><label>" + fieldName + "</label><input id='" + fieldName + "'/></div>";
 		$("form").prepend(inputString);
 	}
-
-	for(var key in COLOR_SCHEMES) {
-		$("#colors").append("<option value='" + key + "'>" + key + "</option>")
-	}
 });
 
 			
@@ -25,7 +21,11 @@ function drawGraph() {
 	yAxis = $("#y-axis").val();
 	data = $("#data").val().split(",");
 	data = jQuery.map(data, function(el) { return parseFloat(el) });
-	colors = $("#colors").val();
+	color = $("#color").val();
+
+	// Generate a li'l color scheme.
+	colors = tinycolor.analogous(color);
+	colors = jQuery.map(colors, function(color) { return "#" + color.toHex() });
 
 	// Don't render the graph if there ain't no data.
 	if(isNaN(data[0]) && data.length == 1) {
@@ -55,7 +55,7 @@ function drawGraph() {
 		chart: {
 			type: type
 		},
-		colors: COLOR_SCHEMES[colors],
+		colors: colors,
 		title: {
 			text: title
 		},
