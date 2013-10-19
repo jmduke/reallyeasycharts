@@ -72,7 +72,8 @@
 				<div>
 					(the graph goes here.) <br /><br />
 					Use comma-separated values like <i>10, 20, 30</i><br />
-					for <b>Labels</b> and <b>Data</b>.
+					for <b>Labels</b> and <b>Data</b>. <br /><br />
+					Click an example below to get started.
 				</div>
 			</div>
 		</div>
@@ -101,6 +102,12 @@
 			</div>
 		</form>
 
+		<ul class='examples'>
+			<li id="0"><img src='./images/example1.png'/>
+			<li id="1"><img src='./images/example2.png'/>
+			<li id="2"><img src='./images/example3.png'/>
+		</ul>
+
 		<div class='footer'>
 			Made with love in rainy Seattle by <a href='http://www.twitter.com/justinmduke'>Justin Duke</a>.  Am I missing anything?  <a href='mailto:me@jmduke.com'>Let me know!</a>
 		</div>
@@ -113,6 +120,11 @@
 			$("form").submit(function() {
 				loadGraph();
 				event.preventDefault();
+			});
+
+			$(".examples li").click(function() {
+				exampleId = $(this).attr("id");
+				loadExample(exampleId);
 			});
 		</script>
 	</body>

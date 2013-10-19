@@ -15,6 +15,7 @@ $(document).ready(function() {
 function drawGraph(graphData) {
 
 	graph = graphData;
+	graph.labels = graph.labels.split(",");
 
 	// Generate a li'l color scheme.
 	colors = tinycolor.analogous(graph.color);
@@ -25,9 +26,9 @@ function drawGraph(graphData) {
 		return;
 	}
 
+
 	// Sanitize ourselves some data.
 	var oldData = graph.data;
-	var sanitizedData;
 	if (oldData.indexOf("]") > -1) {
 		data = oldData.split("]");
 		data = jQuery.map(data, function(el) {
@@ -38,34 +39,35 @@ function drawGraph(graphData) {
 		for (var i = 0; i < data.length; i++) {
 			data[i] = JSON.parse(data[i]);
 		}
-		sanitizedData = jQuery.map(data, function(el) {
-			return {data: el};
-		});
+		graph.data = data;
 	}
 	else {
-		data = jQuery.map(oldData.split(","), function(el) { return parseFloat(el) });
+		graph.data = jQuery.map(oldData.split(","), function(el) { return parseFloat(el) });
 		// parseFloat will fail silently if given strings and set everything to NaN,
 		// so we handle that here.
-		for (var i = 0; i < data.length; i++) {
-			if(isNaN(data[i])) {
+		for (var i = 0; i < graph.data.length; i++) {
+			if(isNaN(graph.data[i])) {
 				alert("Sorry, there was an error with the data you inputted.  Can you try again? (Make sure there aren't any words or letters!)");
 				return;
 			}
 		}
-		sanitizedData = [{
-			data: data
-		}];
+		graph.data = [graph.data];
 	}
-	console.log(sanitizedData[0]);
 
 	// Deal with the quirks.
 	if (graph.type == PIE_CHART) {
 		newData = [];
-		for (var i = 0; i < data.length; i++) {
-			newData.push([graph.labels[i], data[i]]);
+		for (var i = 0; i < graph.data[0].length; i++) {
+			newData.push([graph.labels[i], graph.data[0][i]]);
 		}
-		graph.data = newData;
+		graph.data = [newData];
 	}
+
+	sanitizedData = jQuery.map(graph.data, function(el) {
+		return {data: el};
+	});		
+
+	console.log(sanitizedData);
 
 	// Make that data into a nice lil' HighCharts dict.
 	allData = {
@@ -102,7 +104,7 @@ function drawGraph(graphData) {
 function loadGraph() {
 	// Grab data from the form.
 	graph = {
-		labels: $("#labels").val().split(","),
+		labels: $("#labels").val(),
 		type: $("#type").val(),
 		title: $("#title").val(),
 		xAxis: $("#x-axis").val(),
@@ -113,6 +115,20 @@ function loadGraph() {
 	drawGraph(graph);
 }
 
-function loadExample() {
-	drawGraph(EXAMPLES[0]);
+function populateForm(graphData) {
+	// Populate the form with a graph object.
+	// Used for examples.
+	$("#labels").val(graphData.labels);
+	$("#type").val(graphData.type);
+	$("#title").val(graphData.title);
+	$("#x-axis").val(graphData.xAxis);
+	$("#y-axis").val(graphData.yAxis);
+	$("#data").val(graphData.data);
+	$("#color").val(graphData.color);
+}
+
+function loadExample(x) {
+	exampleGraph = EXAMPLES[x];
+	populateForm(exampleGraph);
+	drawGraph(exampleGraph);
 }

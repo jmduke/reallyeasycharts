@@ -97,3 +97,25 @@ a:hover {
 	width: 100%;
 	padding: 0.2em;
 }
+
+.examples {
+	width: 100%;
+	float: left;
+	list-style-type: none;
+	padding-left: 0;
+}
+
+.examples li {
+	width: 30%;
+	margin: 1.5%;
+	float: left;
+}
+
+.examples img {
+	width: 100%;
+}
+
+.examples img:hover {
+	border: 1px #000 solid;
+	cursor: hand;
+}
