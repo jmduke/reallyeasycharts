@@ -12,33 +12,24 @@ $(document).ready(function() {
 });
 
 			
-function drawGraph() {
-	// Grab data from the form.
-	labels = $("#labels").val().split(",");
-	type = $("#type").val();
-	title = $("#title").val();
-	xAxis = $("#x-axis").val();
-	yAxis = $("#y-axis").val();
-	data = $("#data").val();
-	color = $("#color").val();
+function drawGraph(graphData) {
 
-
+	graph = graphData;
 
 	// Generate a li'l color scheme.
-	colors = tinycolor.analogous(color);
+	colors = tinycolor.analogous(graph.color);
 	colors = jQuery.map(colors, function(color) { return "#" + color.toHex() });
 
 	// Don't render the graph if there ain't no data.
-	if(isNaN(data[0]) && data.length == 1) {
+	if(isNaN(graph.data[0]) && graph.data.length == 1) {
 		return;
 	}
 
-
-
 	// Sanitize ourselves some data.
+	var oldData = graph.data;
 	var sanitizedData;
-	if (data.indexOf("]") > -1) {
-		data = data.split("]");
+	if (oldData.indexOf("]") > -1) {
+		data = oldData.split("]");
 		data = jQuery.map(data, function(el) {
 			startIndex = el.indexOf("["); 
 			return el.slice(startIndex) + "]"; 
@@ -52,7 +43,7 @@ function drawGraph() {
 		});
 	}
 	else {
-		data = jQuery.map(data.split(","), function(el) { return parseFloat(el) });
+		data = jQuery.map(oldData.split(","), function(el) { return parseFloat(el) });
 		// parseFloat will fail silently if given strings and set everything to NaN,
 		// so we handle that here.
 		for (var i = 0; i < data.length; i++) {
@@ -65,29 +56,30 @@ function drawGraph() {
 			data: data
 		}];
 	}
+	console.log(sanitizedData[0]);
 
 	// Deal with the quirks.
-	if (type == PIE_CHART) {
+	if (graph.type == PIE_CHART) {
 		newData = [];
 		for (var i = 0; i < data.length; i++) {
-			newData.push([labels[i], data[i]]);
+			newData.push([graph.labels[i], data[i]]);
 		}
-		data = newData;
+		graph.data = newData;
 	}
 
 	// Make that data into a nice lil' HighCharts dict.
 	allData = {
 		chart: {
-			type: type
+			type: graph.type
 		},
 		colors: colors,
 		title: {
-			text: title
+			text: graph.title
 		},
 		xAxis: {
-			categories: labels,
+			categories: graph.labels,
 			title: {
-				text: xAxis
+				text: graph.xAxis
 			}
 		},
 		legend: {
@@ -95,7 +87,7 @@ function drawGraph() {
 		},
 		yAxis: {
 			title: {
-				text: yAxis
+				text: graph.yAxis
 			}
 		},
 		series: sanitizedData,
@@ -105,4 +97,22 @@ function drawGraph() {
 	}
 
 	$('#container').highcharts(allData);
+}
+
+function loadGraph() {
+	// Grab data from the form.
+	graph = {
+		labels: $("#labels").val().split(","),
+		type: $("#type").val(),
+		title: $("#title").val(),
+		xAxis: $("#x-axis").val(),
+		yAxis: $("#y-axis").val(),
+		data: $("#data").val(),
+		color: $("#color").val()
+	};
+	drawGraph(graph);
+}
+
+function loadExample() {
+	drawGraph(EXAMPLES[0]);
 }
