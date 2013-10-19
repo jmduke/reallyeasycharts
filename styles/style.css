@@ -113,9 +113,10 @@ a:hover {
 
 .examples img {
 	width: 100%;
+	border: 1px #161718 solid;
 }
 
 .examples img:hover {
-	border: 1px #000 solid;
+	border-color: #F36C3D;
 	cursor: hand;
 }
