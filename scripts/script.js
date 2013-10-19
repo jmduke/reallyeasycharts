@@ -19,9 +19,10 @@ function drawGraph() {
 	title = $("#title").val();
 	xAxis = $("#x-axis").val();
 	yAxis = $("#y-axis").val();
-	data = $("#data").val().split(",");
-	data = jQuery.map(data, function(el) { return parseFloat(el) });
+	data = $("#data").val();
 	color = $("#color").val();
+
+
 
 	// Generate a li'l color scheme.
 	colors = tinycolor.analogous(color);
@@ -32,13 +33,37 @@ function drawGraph() {
 		return;
 	}
 
-	// parseFloat will fail silently if given strings and set everything to NaN,
-	// so we handle that here.
-	for (var i = 0; i < data.length; i++) {
-		if(isNaN(data[i])) {
-			alert("Sorry, there was an error with the data you inputted.  Can you try again? (Make sure there aren't any words or letters!)");
-			return;
+
+
+	// Sanitize ourselves some data.
+	var sanitizedData;
+	if (data.indexOf("]") > -1) {
+		data = data.split("]");
+		data = jQuery.map(data, function(el) {
+			startIndex = el.indexOf("["); 
+			return el.slice(startIndex) + "]"; 
+		});
+		data.pop();
+		for (var i = 0; i < data.length; i++) {
+			data[i] = JSON.parse(data[i]);
 		}
+		sanitizedData = jQuery.map(data, function(el) {
+			return {data: el};
+		});
+	}
+	else {
+		data = jQuery.map(data.split(","), function(el) { return parseFloat(el) });
+		// parseFloat will fail silently if given strings and set everything to NaN,
+		// so we handle that here.
+		for (var i = 0; i < data.length; i++) {
+			if(isNaN(data[i])) {
+				alert("Sorry, there was an error with the data you inputted.  Can you try again? (Make sure there aren't any words or letters!)");
+				return;
+			}
+		}
+		sanitizedData = [{
+			data: data
+		}];
 	}
 
 	// Deal with the quirks.
@@ -73,9 +98,7 @@ function drawGraph() {
 				text: yAxis
 			}
 		},
-		series: [{
-			data: data
-		}],
+		series: sanitizedData,
 		credits: {
 			enabled: false
 		}
