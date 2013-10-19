@@ -89,13 +89,24 @@ a:hover {
 
 #submit {
 	margin-top: 2em;
-	width: 20%;
-	margin-left: 40%;
+	width: 30%;
+	margin-left: 35%;
 }
 
 #submit input {
+	background-color: inherit;
+	color: inherit;
+	border: 3px #fff solid;
+	font-family: inherit;
+	font-size: 1em;
 	width: 100%;
-	padding: 0.2em;
+	padding: 0.5em;
+}
+
+#submit input:hover {
+	cursor: hand;
+	border-color: #161718;
+	color: #161718;
 }
 
 .examples {
