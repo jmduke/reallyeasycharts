@@ -128,7 +128,9 @@ function populateForm(graphData) {
 }
 
 function loadExample(x) {
-	exampleGraph = EXAMPLES[x];
+	// Apparently deep copying in JavaScript is non-trivial!  Yippee!
+	var exampleGraph = jQuery.extend({}, EXAMPLES[x]);
+
 	populateForm(exampleGraph);
 	drawGraph(exampleGraph);
 }
