@@ -35,7 +35,6 @@ h3 {
 form {
 	padding: 1em;
 	float: left;
-	background-color: #F36C3D;
 	color: #fff;
 }
 
@@ -45,6 +44,17 @@ form div {
 	margin-right: 5%;
 	margin-left: 5%;
 }
+
+form.primary {
+	background-color: #F36C3D;
+	margin-bottom: 0;
+}
+
+form.secondary {
+	background-color: #FFD1A0;
+	margin-top: 0;
+}
+
 label {
 	float: left;
 	text-transform: capitalize;

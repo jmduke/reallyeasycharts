@@ -7,9 +7,35 @@ $(document).ready(function() {
 	for(var i = 0; i < FIELDS.length; i++) {
 		var fieldName = FIELDS[i];
 		var inputString = "<div><label>" + fieldName + "</label><input id='" + fieldName + "'/></div>";
-		$("form").prepend(inputString);
+		$(".primary").prepend(inputString);
 	}
 });
+
+function fluxNumber(x) {
+	beta = 40;
+	return Math.min(
+		255,
+		Math.max(
+			0,
+			x + Math.floor((Math.random()*beta)-(beta / 2))
+		));
+}
+
+function generateColorScheme(seed) {
+	r = parseInt(seed.slice(1, 3), 16);
+	g = parseInt(seed.slice(3, 5), 16);
+	b = parseInt(seed.slice(5, 7), 16);
+
+	colors = [];
+	for (var i = 0; i < 5; i++) {
+		newColor = "#";
+		newColor += fluxNumber(r).toString(16);
+		newColor += fluxNumber(g).toString(16);
+		newColor += fluxNumber(b).toString(16);
+		colors.push(newColor);
+	}
+	return colors
+}
 
 			
 function drawGraph(graphData) {
@@ -18,8 +44,7 @@ function drawGraph(graphData) {
 	graph.labels = graph.labels.split(",");
 
 	// Generate a li'l color scheme.
-	colors = tinycolor.analogous(graph.color);
-	colors = jQuery.map(colors, function(color) { return "#" + color.toHex() });
+	colors = generateColorScheme(graph.color);
 
 	// Don't render the graph if there ain't no data.
 	if(isNaN(graph.data[0]) && graph.data.length == 1) {
@@ -60,14 +85,16 @@ function drawGraph(graphData) {
 		for (var i = 0; i < graph.data[0].length; i++) {
 			newData.push([graph.labels[i], graph.data[0][i]]);
 		}
+		// Avoid having the last and first slice having the same color.
+		while ((newData.length - 1) % colors.length == 0) {
+			colors.pop();
+		}
 		graph.data = [newData];
 	}
 
 	sanitizedData = jQuery.map(graph.data, function(el) {
 		return {data: el};
 	});		
-
-	console.log(sanitizedData);
 
 	// Make that data into a nice lil' HighCharts dict.
 	allData = {
