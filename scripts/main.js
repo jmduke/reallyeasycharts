@@ -3,7 +3,10 @@ var PIE_CHART = "pie";
 var FIELDS = ["title", "x-axis", "y-axis", "labels", "data"];
 
 $(document).ready(function() {
-	// Because I am lazy.  (Or "elegance".)
+	// Load the sharing buttons.
+	loadSharingButtons();
+
+	// Dynamically create the form.  Because I am lazy.  (Or "elegance".)
 	for(var i = 0; i < FIELDS.length; i++) {
 		var fieldName = FIELDS[i];
 		var inputString = "<div><label>" + fieldName + "</label><input id='" + fieldName + "'/></div>";
@@ -13,6 +16,28 @@ $(document).ready(function() {
 	// Try and generate a graph from the parameters, if necessary.
 	loadGraphFromURL();
 });
+
+function loadSharingButtons() {
+	// Facebook.
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=389867964446737";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));	
+
+	// Twitter.
+	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+
+	// Google+.
+	(function() {
+		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		po.src = 'https://apis.google.com/js/plusone.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	})();
+
+}
 
 function generateColorScheme(seed) {
 	r = parseInt(seed.slice(1, 3), 16);
