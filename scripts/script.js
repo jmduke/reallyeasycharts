@@ -128,6 +128,7 @@ function drawGraph(graphData) {
 	}
 
 	$('#container').highcharts(allData);
+	$('#share').text("Share it!");
 }
 
 function loadGraph() {
@@ -353,6 +354,13 @@ function getQueryVariable(variable) {
 
 function loadGraphFromURL() {
 	var encodedGraph = getQueryVariable('g');
+
+	// If the GET request is empty, we assume everything is OK and stop.
+	if (encodedGraph == undefined) {
+		console.log("Can't find an encoded graph.  Stopping loadGraphFromURL.");
+		return;
+	}
+
 	var decodedGraph = Base64.decode(encodedGraph);
 
 	// Remove the last character of the decoded graph for some reason.
