@@ -2,14 +2,15 @@
 var PIE_CHART = "pie";
 var FIELDS = ["title", "x-axis", "y-axis", "labels", "data"];
 
-// Because I am lazy.  (Or "elegance".)
 $(document).ready(function() {
+	// Because I am lazy.  (Or "elegance".)
 	for(var i = 0; i < FIELDS.length; i++) {
 		var fieldName = FIELDS[i];
 		var inputString = "<div><label>" + fieldName + "</label><input id='" + fieldName + "'/></div>";
 		$(".primary").prepend(inputString);
 	}
 
+	// Try and generate a graph from the parameters, if necessary.
 	loadGraphFromURL();
 });
 
@@ -32,7 +33,7 @@ function generateColorScheme(seed) {
 			
 function drawGraph(graphData) {
 
-	graph = graphData;
+	var graph = jQuery.extend({}, graphData);
 	graph.labels = graph.labels.split(",");
 
 	// Generate a li'l color scheme.
@@ -137,7 +138,6 @@ function loadGraph() {
 
 function populateForm(graphData) {
 	// Populate the form with a graph object.
-	// Used for examples.
 	$("#labels").val(graphData.labels);
 	$("#type").val(graphData.type);
 	$("#title").val(graphData.title);
