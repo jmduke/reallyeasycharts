@@ -14,9 +14,9 @@ body {
 	}
 }
 
-h3 {
-	text-align: left;
-	float: left;
+h2 {
+	font-size: 1.2em;
+	font-weight: normal;
 }
 
 #container {
