@@ -104,6 +104,9 @@
 			<div id="submit">
 				<input type="submit" value="Graph it!"/>
 			</div>
+			<div id="share">
+				Share it!
+			</div>
 		</form>
 
 		<ul class='examples'>
@@ -129,6 +132,15 @@
 			$(".examples li").click(function() {
 				exampleId = $(this).attr("id");
 				loadExample(exampleId);
+			});
+
+			$("#share").click(function() {
+				// If the shortlink has been generated, let the user copy it.  Otherwise, generate it.
+				if ($(this).text().indexOf("/") > 0) {
+					window.prompt ("Copy to clipboard: Ctrl+C, Enter", $(this).text());
+				} else {
+					shareGraph();
+				}
 			});
 		</script>
 	</body>

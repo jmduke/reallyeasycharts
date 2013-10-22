@@ -97,7 +97,7 @@ a:hover {
 	color: #F36C3D;
 }
 
-#submit {
+#submit, #share {
 	margin-top: 2em;
 	width: 30%;
 	margin-left: 35%;
@@ -113,10 +113,15 @@ a:hover {
 	padding: 0.5em;
 }
 
-#submit input:hover {
+#submit input:hover, #share:hover {
 	cursor: hand;
 	border-color: #161718;
 	color: #161718;
+}
+
+#share #link {
+	opacity: 0.5;
+	font-size: 0.8em;
 }
 
 .examples {
