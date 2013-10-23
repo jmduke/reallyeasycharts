@@ -1,6 +1,4 @@
-// Constants.  There should probably be more of these.
-var PIE_CHART = "pie";
-var FIELDS = ["title", "x-axis", "y-axis", "labels", "data"];
+var graph;
 
 $(document).ready(function() {
 	// Load the sharing buttons.
@@ -8,8 +6,20 @@ $(document).ready(function() {
 
 	// Dynamically create the form.  Because I am lazy.  (Or "elegance".)
 	for(var i = 0; i < FIELDS.length; i++) {
-		var fieldName = FIELDS[i];
-		var inputString = "<div><label>" + fieldName + "</label><input id='" + fieldName + "'/></div>";
+		var field = FIELDS[i];
+		var inputString = "<div>";
+		inputString += "<label>" + field.name + "</label>";
+		if (field.type == "select") {
+			inputString += "<select id='" + field.name + "'>"
+			for (var j = 0; j < field.options.length; j++) {
+				option = field.options[j];
+				inputString += "<option value='" + option.type + "'>" + option.label + "</option>"
+			}
+			inputString += "</select>"
+		} else {
+			inputString += "<input id='" + field.name + "' type='" + field.type + "'/>";
+		}
+		inputString += "</div>";
 		$(".primary").prepend(inputString);
 	}
 
@@ -58,20 +68,20 @@ function generateColorScheme(seed) {
 			
 function drawGraph(graphData) {
 
-	var graph = jQuery.extend({}, graphData);
-	graph.labels = graph.labels.split(",");
+	var newGraph = jQuery.extend({}, graphData);
+	newGraph.labels = newGraph.labels.split(",");
 
 	// Generate a li'l color scheme.
-	colors = generateColorScheme(graph.color);
+	colors = generateColorScheme(newGraph.color);
 
 	// Don't render the graph if there ain't no data.
-	if(isNaN(graph.data[0]) && graph.data.length == 1) {
+	if(isNaN(newGraph.data[0]) && newGraph.data.length == 1) {
 		return;
 	}
 
 
 	// Sanitize ourselves some data.
-	var oldData = graph.data;
+	var oldData = newGraph.data;
 	if (oldData.indexOf("]") > -1) {
 		data = oldData.split("]");
 		data = jQuery.map(data, function(el) {
@@ -82,51 +92,51 @@ function drawGraph(graphData) {
 		for (var i = 0; i < data.length; i++) {
 			data[i] = JSON.parse(data[i]);
 		}
-		graph.data = data;
+		newGraph.data = data;
 	}
 	else {
-		graph.data = jQuery.map(oldData.split(","), function(el) { return parseFloat(el) });
+		newGraph.data = jQuery.map(oldData.split(","), function(el) { return parseFloat(el) });
 		// parseFloat will fail silently if given strings and set everything to NaN,
 		// so we handle that here.
-		for (var i = 0; i < graph.data.length; i++) {
-			if(isNaN(graph.data[i])) {
+		for (var i = 0; i < newGraph.data.length; i++) {
+			if(isNaN(newGraph.data[i])) {
 				alert("Sorry, there was an error with the data you inputted.  Can you try again? (Make sure there aren't any words or letters!)");
 				return;
 			}
 		}
-		graph.data = [graph.data];
+		newGraph.data = [newGraph.data];
 	}
 
 	// Deal with the quirks.
-	if (graph.type == PIE_CHART) {
+	if (newGraph.type == "pie") {
 		newData = [];
-		for (var i = 0; i < graph.data[0].length; i++) {
-			newData.push([graph.labels[i], graph.data[0][i]]);
+		for (var i = 0; i < newGraph.data[0].length; i++) {
+			newData.push([newGraph.labels[i], newGraph.data[0][i]]);
 		}
 		// Avoid having the last and first slice having the same color.
 		while ((newData.length - 1) % colors.length == 0) {
 			colors.pop();
 		}
-		graph.data = [newData];
+		newGraph.data = [newData];
 	}
 
-	sanitizedData = jQuery.map(graph.data, function(el) {
+	sanitizedData = jQuery.map(newGraph.data, function(el) {
 		return {data: el};
 	});		
 
 	// Make that data into a nice lil' HighCharts dict.
 	allData = {
 		chart: {
-			type: graph.type
+			type: newGraph.type
 		},
 		colors: colors,
 		title: {
-			text: graph.title
+			text: newGraph.title
 		},
 		xAxis: {
-			categories: graph.labels,
+			categories: newGraph.labels,
 			title: {
-				text: graph.xAxis
+				text: newGraph.xAxis
 			}
 		},
 		legend: {
@@ -134,7 +144,7 @@ function drawGraph(graphData) {
 		},
 		yAxis: {
 			title: {
-				text: graph.yAxis
+				text: newGraph.yAxis
 			}
 		},
 		series: sanitizedData,
@@ -178,6 +188,7 @@ function loadExample(x) {
 
 	populateForm(exampleGraph);
 	drawGraph(exampleGraph);
+	loadGraph();
 }
 
 function get_short_url(long_url, func) {
