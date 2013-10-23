@@ -202,7 +202,23 @@ function get_short_url(long_url, func) {
         },
         function(response)
         {
-            func(response.data.url);
+            func(response.data.hash);
+        }
+    );
+}
+
+function get_long_url(shortcode, func) {
+    $.getJSON(
+        "http://api.bitly.com/v3/expand?callback=?", 
+        { 
+            "format": "json",
+            "apiKey": "R_1667a451b76ac7256d513e11727ac19f",
+            "login": "justinmduke",
+            "hash": shortcode
+        },
+        function(response)
+        {
+            func(response.data.expand[0].long_url);
         }
     );
 }
@@ -215,12 +231,11 @@ function shareGraph() {
 	graphString = Base64.encode(graphString);
 
 	// Create URL.
-	var shareableURL = 'http://www.reallyeasycharts.com/?g=' + graphString;
+	var shareableURL = 'http://www.reallyeasycharts.com/' + graphString;
 
 	// Pass URL as a request to bit.ly
 	get_short_url(shareableURL, function(response) {
-		console.log(response);
-		$("#share").text(response);
+		$("#share").text("reallyeasycharts.com/?g=" + response);
 	});
 }
 
@@ -233,14 +248,18 @@ function loadGraphFromURL() {
 		return;
 	}
 
-	var decodedGraph = Base64.decode(encodedGraph);
+	get_long_url(encodedGraph, function(response) {
+		temp = response.split('/');
+		decodedGraph = temp[temp.length - 1];
+		decodedGraph = Base64.decode(decodedGraph);
 
-	// Remove the last character of the decoded graph for some reason.
-	while (decodedGraph[decodedGraph.length - 1] != "}") {
-		decodedGraph = decodedGraph.substring(0, decodedGraph.length - 1);
-	}
-	var graphData = JSON.parse(decodedGraph);
+		// Remove the last character of the decoded graph for some reason.
+		while (decodedGraph[decodedGraph.length - 1] != "}" && decodedGraph.length > 0) {
+			decodedGraph = decodedGraph.substring(0, decodedGraph.length - 1);
+		}
+		var graphData = JSON.parse(decodedGraph);
 
-	populateForm(graphData);
-	loadGraph();
+		populateForm(graphData);
+		loadGraph();
+	});
 }
