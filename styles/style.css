@@ -85,7 +85,7 @@ input, select {
 	margin-top: 3em;
 	color: #ACB0B5;
 	margin-bottom: 3em;
-	width: 100%;
+	width:;
 }
 
 a {
@@ -100,8 +100,8 @@ a:hover {
 
 #submit, #share {
 	margin-top: 2em;
-	width: 30%;
-	margin-left: 35%;
+	width: 60%;
+	margin-left: 20%;
 }
 
 #submit input {
