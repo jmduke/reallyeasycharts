@@ -150,6 +150,13 @@ function drawGraph(graphData) {
 		series: sanitizedData,
 		credits: {
 			enabled: false
+		},
+		plotOptions: {
+			series: {
+				dataLabels: {
+					enabled: newGraph.dataLabels
+				}
+			}
 		}
 	}
 
@@ -166,7 +173,8 @@ function loadGraph() {
 		xAxis: $("#x-axis").val(),
 		yAxis: $("#y-axis").val(),
 		data: $("#data").val(),
-		color: $("#color").val()
+		color: $("#color").val(),
+		dataLabels: $("#dataLabels").get(0).checked
 	};
 	drawGraph(graph);
 }
@@ -180,6 +188,7 @@ function populateForm(graphData) {
 	$("#y-axis").val(graphData.yAxis);
 	$("#data").val(graphData.data);
 	$("#color").val(graphData.color);
+	$("#dataLabels").val(graphData.dataLabels);
 }
 
 function loadExample(x) {

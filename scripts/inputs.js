@@ -32,4 +32,7 @@ var FIELDS = [{
 		label: "Bar",
 		type: "column"
 	}]
+}, {
+	name: "dataLabels",
+	type: "checkbox"
 }];
