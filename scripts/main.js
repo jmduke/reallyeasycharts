@@ -149,7 +149,7 @@ function drawGraph(graphData) {
 		},
 		series: sanitizedData,
 		credits: {
-			enabled: false
+			text: "reallyeasycharts.com"
 		},
 		plotOptions: {
 			series: {

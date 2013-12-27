@@ -1,7 +1,12 @@
 /*
  * All possible inputs to be made into the app.
+ * 
+ * Worth noting: these get loaded in opposite order: the first field is placed last.
  */
 var FIELDS = [{
+	name: "dataLabels",
+	type: "checkbox"
+}, {
 	name: "title",
 	type: "text"
 }, {
@@ -32,7 +37,4 @@ var FIELDS = [{
 		label: "Bar",
 		type: "column"
 	}]
-}, {
-	name: "dataLabels",
-	type: "checkbox"
 }];
