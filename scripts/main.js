@@ -53,13 +53,14 @@ function generateColorScheme(seed) {
 	r = parseInt(seed.slice(1, 3), 16);
 	g = parseInt(seed.slice(3, 5), 16);
 	b = parseInt(seed.slice(5, 7), 16);
+	console.log(r, g, b);
 
 	colors = [];
 	for (var i = 0; i < 5; i++) {
 		newColor = "#";
-		newColor += fluxNumber(r).toString(16);
-		newColor += fluxNumber(g).toString(16);
-		newColor += fluxNumber(b).toString(16);
+		newColor += (r + Math.pow(2, i + 1)).toString(16);
+		newColor += (g + Math.pow(2, i + 1)).toString(16);
+		newColor += (b + Math.pow(2, i + 1)).toString(16);
 		colors.push(newColor);
 	}
 	return colors
