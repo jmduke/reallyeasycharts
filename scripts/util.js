@@ -2,18 +2,6 @@
  * Random functions and tidbits used within script.js.
  */
 
-// Used for generating color schemes.  This could absolutely use some tweaking;
-// perhaps shifting this to be a smaller beta and some sort of step function.
-function fluxNumber(x) {
-	beta = 40;
-	return Math.min(
-		255,
-		Math.max(
-			0,
-			x + Math.floor((Math.random()*beta)-(beta / 2))
-		));
-}
-
 var Base64 = {
 
 // private property
