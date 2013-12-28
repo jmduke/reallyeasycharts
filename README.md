@@ -5,4 +5,4 @@ This is a very simple web service designed to get you from Point A to Point B as
 
 It's powered by [HighCharts](www.highcharts.com) and [jQuery](http://jquery.com/).
 
-See it live [here](http://reallyeasycharts.herokuapp.com).
+See it live [here](http://reallyeasycharts.com).
