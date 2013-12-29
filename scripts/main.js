@@ -52,8 +52,7 @@ function loadSharingButtons() {
 function generateColorScheme(seed) {
 	r = parseInt(seed.slice(1, 3), 16);
 	g = parseInt(seed.slice(3, 5), 16);
-	b = parseInt(seed.slice(5, 7), 16);
-	console.log(r, g, b);
+	b = parseInt(seed.slice(5, 7), 16);[]
 
 	colors = [];
 	for (var i = 0; i < 5; i++) {
@@ -83,11 +82,13 @@ function drawGraph(graphData) {
 
 	// Sanitize ourselves some data.
 	var oldData = newGraph.data;
+
+	// If it's multi-tiered data, do specific things.
 	if (oldData.indexOf("]") > -1) {
 		data = oldData.split("]");
 		data = jQuery.map(data, function(el) {
-			startIndex = el.indexOf("["); 
-			return el.slice(startIndex) + "]"; 
+			startIndex = el.indexOf("[");
+			return el.slice(startIndex) + "]";
 		});
 		data.pop();
 		for (var i = 0; i < data.length; i++) {
@@ -96,17 +97,18 @@ function drawGraph(graphData) {
 		newGraph.data = data;
 	}
 	else {
-		newGraph.data = jQuery.map(oldData.split(","), function(el) { return parseFloat(el) });
+		newGraph.data = jQuery.map(oldData.split(","), function(el) { return parseFloat(el); });
 		// parseFloat will fail silently if given strings and set everything to NaN,
 		// so we handle that here.
-		for (var i = 0; i < newGraph.data.length; i++) {
-			if(isNaN(newGraph.data[i])) {
+		for (var j = 0; j < newGraph.data.length; j++) {
+			if(isNaN(newGraph.data[j])) {
 				alert("Sorry, there was an error with the data you inputted.  Can you try again? (Make sure there aren't any words or letters!)");
 				return;
 			}
 		}
 		newGraph.data = [newGraph.data];
 	}
+
 
 	// Deal with the quirks.
 	if (newGraph.type == "pie") {
@@ -115,15 +117,22 @@ function drawGraph(graphData) {
 			newData.push([newGraph.labels[i], newGraph.data[0][i]]);
 		}
 		// Avoid having the last and first slice having the same color.
-		while ((newData.length - 1) % colors.length == 0) {
+		while ((newData.length - 1) % colors.length === 0) {
 			colors.pop();
 		}
 		newGraph.data = [newData];
 	}
 
-	sanitizedData = jQuery.map(newGraph.data, function(el) {
-		return {data: el};
-	});		
+	if (newGraph.type == "scatter") {
+		sanitizedData = [{data: newGraph.data}];
+	}
+	else {
+		sanitizedData = jQuery.map(newGraph.data, function(el) {
+			return {data: el};
+		});
+	}
+
+	console.log(sanitizedData);
 
 	// Make that data into a nice lil' HighCharts dict.
 	allData = {

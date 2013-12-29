@@ -36,5 +36,8 @@ var FIELDS = [{
 	}, {
 		label: "Bar",
 		type: "column"
+	}, {
+		label: "Scatter Plot",
+		type: "scatter"
 	}]
 }];
